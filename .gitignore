@@ -1,0 +1,9 @@
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+venv/
+*.pyc
+.DS_Store
+# data asli jangan ikut ke-push
+data/
+*.zip
