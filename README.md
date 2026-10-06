@@ -73,7 +73,7 @@ An Excel export with one title row, then a header row containing at least:
 ├── notebooks/
 │   └── sentiment_volume_forecast.ipynb   # the whole pipeline, 7 steps
 ├── examples/
-│   ├── make_sample_data.py               # generates a synthetic export
+│   ├── make_sample_data.ipynb            # generates the synthetic export (opens in Colab)
 │   └── sample_export.xlsx                # 120 days of synthetic data
 ├── docs/
 │   └── forecast_example.png
