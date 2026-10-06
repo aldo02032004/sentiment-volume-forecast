@@ -1,0 +1,8 @@
+great[viz] @ git+https://github.com/azmkto/GREAT-Tools.git
+scikit-learn
+pandas
+numpy
+requests
+openpyxl
+ipywidgets
+matplotlib
