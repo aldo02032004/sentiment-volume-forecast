@@ -33,14 +33,25 @@ Forecast the daily volume of social-media posts (or unique accounts) per sentime
 
 On a real 123-day monitoring dataset (not included), every option was compared with the same backtest:
 
-| Setting | Regresi pintar | Mean | HistGradientBoosting | ETS (Holt-Winters) |
-|---|---|---|---|---|
-| Posts, 1 day ahead | **73.6%** | 73.2% | 71.9% | 73.0% |
-| Posts, 7 days ahead | **72.1%** | 71.2% | 68.2% | 67.5% |
-| Accounts, 1 day ahead | **74.5%** | 73.9% | 68.0% | 71.7% |
-| Accounts, 7 days ahead | **72.3%** | 71.4% | 64.6% | 68.5% |
+| Setting | Regresi pintar | Mean | XGBoost | HistGradientBoosting | ETS (Holt-Winters) |
+|---|---|---|---|---|---|
+| Posts, 1 day ahead | **73.6%** | 73.2% | 72.9% | 71.9% | 73.0% |
+| Posts, 3 days ahead | **72.1%** | 71.5% | 70.4% | 69.6% | 69.9% |
+| Posts, 7 days ahead | **72.1%** | 71.2% | 68.8% | 68.2% | 67.5% |
+| Accounts, 1 day ahead | **74.5%** | 73.9% | 71.1% | 68.0% | 71.7% |
+| Accounts, 3 days ahead | **72.6%** | 72.1% | 69.1% | 65.5% | 69.7% |
+| Accounts, 7 days ahead | **72.3%** | 71.4% | 67.4% | 64.6% | 68.5% |
 
-LightGBM, SARIMA and Theta were also tried and did not beat the simple Ridge model while being much slower. With only a few months of daily data, a small regularised regression with weekday effects is the sweet spot.
+Run time per setting: all five notebook methods together take 0.5–1.3 s, XGBoost alone 11–14 s, HistGradientBoosting 36–64 s.
+LightGBM, SARIMA and Theta were also tried and did not beat the simple Ridge model either.
+
+### Why not XGBoost / LightGBM?
+
+- **Too little data.** About 120 days gives ~120 training rows per sentiment; boosted trees need thousands to learn more than noise.
+- **Trees cannot extrapolate.** They never predict outside the range seen in training, so they lag behind rising or falling volume, and the error compounds when forecasting several days recursively (XGBoost falls 0.7 → 4.9 points behind as the horizon grows from 1 to 7 days).
+- **Few features.** Only yesterday's volume and the weekday are available, a pattern a small regularised linear model already captures.
+
+Boosting becomes worth revisiting with hundreds of days of data or extra daily features (news count, events, engagement).
 
 ## Quick start
 
@@ -69,7 +80,7 @@ An Excel export with one title row, then a header row containing at least:
 
 ```
 ├── notebooks/
-│   └── sentiment_volume_forecast.ipynb   # the whole pipeline, 8 cells
+│   └── sentiment_volume_forecast.ipynb   # the whole pipeline, 7 steps
 ├── examples/
 │   ├── make_sample_data.py               # generates a synthetic export
 │   └── sample_export.xlsx                # 120 days of synthetic data
