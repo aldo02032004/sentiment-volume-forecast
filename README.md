@@ -55,18 +55,9 @@ Boosting becomes worth revisiting with hundreds of days of data or extra daily f
 
 ## Quick start
 
-1. Click **Open in Colab**.
-2. In Cell 3, paste your Google Drive / Sheets links into `SOURCES` (sharing: *Anyone with the link*) and set `OBJECT_NAME`.
-3. `Runtime → Run all`, then play with the sliders under the chart.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aldo02032004/sentiment-volume-forecast/blob/main/notebooks/sentiment_volume_forecast.ipynb) → `Runtime → Run all` → play with the sliders.
 
-**Try it without your own data:**
-
-```bash
-pip install pandas numpy openpyxl
-python examples/make_sample_data.py
-```
-
-Upload `examples/sample_export.xlsx` to Google Drive, share it as *Anyone with the link*, and paste the link into `SOURCES`.
+It runs on the bundled sample data out of the box. To use your own exports, replace the link in `SOURCES` (step 3) with Google Drive / Sheets links shared as *Anyone with the link*.
 
 ## Input format
 
