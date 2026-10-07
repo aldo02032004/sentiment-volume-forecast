@@ -24,8 +24,17 @@ Forecast the daily volume of social-media posts (or unique accounts) per sentime
 | Tren linear (`LinearRegression`) | straight-line trend over the learned days (only for horizons ≤ 4 days) |
 | Regresi pintar (`Ridge`) | `log(1 + today)` from `log(1 + yesterday)` + weekend and weekday effects, forecast recursively |
 
-- **Backtest (rolling origin).** For each of the last 60 days the model only sees data up to that day, forecasts the next *H* days, and is compared with what actually happened.
-  Accuracy = `1 − Σ|actual − forecast| / Σ actual`.
+- **Backtest (rolling origin).** For each of the last 60 days the model only sees data up to that day, forecasts the next *H* days, and is compared with what actually happened. All scores below come from these unseen days, never from the data the model was fitted on (which is why there is no R²).
+- **Scores per method**, shown in a table under the chart:
+
+  | Metric | Formula | Read it as |
+  |---|---|---|
+  | Ketepatan (accuracy) | `1 − Σ\|e\| / Σ actual` (= 1 − WAPE) | share of volume predicted correctly; comparable across topics and posts vs. accounts; used to pick the method |
+  | MAE | `mean(\|e\|)` | typical miss, in posts (or accounts) per day per sentiment |
+  | RMSE | `√mean(e²)` | like MAE but punishes big misses; RMSE ≫ MAE means a few spike days dominate the error |
+  | Bias | `mean(e)` | `+` = forecasts too low on average, `−` = too high, ≈ 0 = balanced |
+
+  where `e = actual − forecast`.
 - **Prediction range.** The shaded band is the forecast plus the 10th–90th percentile of the backtest errors for each step ahead, so it reflects how wrong each method really was, not a textbook assumption.
 - **Safe sliders.** Slider limits follow the data length: forecast at most ¼ of the data (max 14 days) and always keep at least 14 backtest runs.
 
@@ -44,6 +53,18 @@ On a real 123-day monitoring dataset (not included), every option was compared w
 
 Run time per setting: all five notebook methods together take 0.5–1.3 s, XGBoost alone 11–14 s, HistGradientBoosting 36–64 s.
 LightGBM, SARIMA and Theta were also tried and did not beat the simple Ridge model either.
+
+Full score table on the same data (posts, 3 days ahead, 7 learned days, 60 backtest runs):
+
+| Method | Ketepatan | MAE | RMSE | Bias |
+|---|---|---|---|---|
+| Regresi pintar | **72%** | **931** | **1,441** | +158 |
+| Rata-rata | 71% | 951 | 1,448 | +32 |
+| Hari terakhir | 67% | 1,092 | 1,665 | +20 |
+| Minggu lalu | 61% | 1,314 | 1,870 | +39 |
+| Tren linear | 60% | 1,324 | 1,896 | +12 |
+
+Ketepatan, MAE and RMSE rank the methods the same way. RMSE ≈ 1.5 × MAE shows the error is driven by sudden issue spikes, and the slightly positive bias means the model tends to under-forecast those spikes.
 
 ### Why not XGBoost / LightGBM?
 
@@ -73,7 +94,7 @@ An Excel export with one title row, then a header row containing at least:
 ├── notebooks/
 │   └── sentiment_volume_forecast.ipynb   # the whole pipeline, 7 steps
 ├── examples/
-│   ├── make_sample_data.ipynb            # generates the synthetic export (opens in Colab)
+│   ├── make_sample_data.ipynb            # builds the synthetic export step by step (outputs included)
 │   └── sample_export.xlsx                # 120 days of synthetic data
 ├── docs/
 │   └── forecast_example.png
