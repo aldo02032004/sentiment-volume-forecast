@@ -1,5 +1,6 @@
 great[viz] @ git+https://github.com/azmkto/GREAT-Tools.git
 scikit-learn
+sktime
 pandas
 numpy
 requests
