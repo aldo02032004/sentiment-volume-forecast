@@ -93,7 +93,7 @@ An Excel export with one title row, then a header row containing at least:
 ## Project structure
 
 ```
-├── Linear_regression_forecast.ipynb   # the whole pipeline, 7 steps
+├── Linear_regression_forecast.ipynb   # the whole pipeline, 7 steps + a static example chart
 ├── examples/
 │   ├── make_sample_data.ipynb         # builds the synthetic export step by step (outputs included)
 │   └── sample_export.xlsx             # 120 days of synthetic data
