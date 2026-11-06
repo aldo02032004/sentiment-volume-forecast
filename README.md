@@ -2,7 +2,7 @@
 
 Forecast the daily volume of social-media posts (or unique accounts) per sentiment — positive, negative, neutral — from monitoring-tool exports, with an honest accuracy check against past data and an interactive chart.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aldo02032004/sentiment-volume-forecast/blob/main/Linear_regression_forecast.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aldo02032004/sentiment-volume-forecast/blob/main/sentiment_volume_forecast.ipynb)
 
 ![Forecast example](docs/forecast_example.png)
 *Example on synthetic data: solid lines = actual daily posts, dashed = forecast, shaded = 80% range, orange = days the model learned from.*
@@ -78,7 +78,7 @@ Boosting becomes worth revisiting with years of data or extra daily features (ne
 
 ## Quick start
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aldo02032004/sentiment-volume-forecast/blob/main/Linear_regression_forecast.ipynb) → `Runtime → Run all` → play with the sliders.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aldo02032004/sentiment-volume-forecast/blob/main/sentiment_volume_forecast.ipynb) → `Runtime → Run all` → play with the sliders.
 
 It runs on the bundled sample data out of the box. To use your own exports, replace the link in `SOURCES` (step 3) with Google Drive / Sheets links shared as *Anyone with the link*.
 
@@ -93,7 +93,7 @@ An Excel export with one title row, then a header row containing at least:
 ## Project structure
 
 ```
-├── Linear_regression_forecast.ipynb   # the whole pipeline, 7 steps + a static example chart
+├── sentiment_volume_forecast.ipynb    # full pipeline with saved outputs
 ├── examples/
 │   ├── make_sample_data.ipynb         # builds the synthetic export step by step (outputs included)
 │   └── sample_export.xlsx             # 120 days of synthetic data
